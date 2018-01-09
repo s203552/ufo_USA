@@ -1,0 +1,105 @@
+	public void  creaGrafo2(int anno) {
+		String s="";
+		if(graph2==null)		
+			this.graph2 = new SimpleDirectedGraph<>(DefaultEdge.class);
+		
+		//aggiungo vertici stati degli avvistamenti      
+			
+		Graphs.addAllVertices (graph2, this.getStati(anno)); 
+		System.out.println("Grafo creato: " + graph2.vertexSet().size() +"  vertici "  );	//ok
+		
+		//creo archi
+		for (String a1 : graph2.vertexSet()) {
+			for (String a2 : graph2.vertexSet()) {		
+				if (a1 != null && a2 != null && !a1.equals(a2)) {				
+
+						Graphs.addEdgeWithVertices(graph2, a1,a2);
+						//stringa grafo 
+							s += a1+" "+a2+"\n";
+						}		
+				
+			}
+		 }
+			//stampo
+			System.out.println("Grafo creato: " + graph2.vertexSet().size() + " nodi, " + graph2.edgeSet().size() + " archi");
+			System.out.println(s);
+////			System.out.println(graph);
+			
+	}
+	
+	
+	
+	public List<String> trovaSucessori2(String s) {
+		List<String> successori = new ArrayList<String>();
+		successori.addAll(Graphs.successorListOf(graph2, s));
+		return successori;
+	}
+	public List<String> trovaPredecessori2(String s) {
+		List<String>predecessori = new ArrayList<String>();
+		predecessori.addAll(Graphs.predecessorListOf(graph2,s));
+		return predecessori;
+	}
+	
+	
+	List<String> vicini2 = new ArrayList<String>();
+	public List<String> getRaggiungibiliInAmpiezza2(String partenza)
+	{	
+		BreadthFirstIterator<String, DefaultEdge> visita = 
+				new BreadthFirstIterator<String, DefaultEdge>( this.graph2, partenza);
+		
+		while(visita.hasNext()) //Finchè ogni nodo ha un successore
+		{
+			String c1 = visita.next(); //Prendo il successore
+			vicini2.add(c1); //e lo metto nella lista
+		}
+		return vicini2;
+	}
+	public int raggiungibili2(){
+		return vicini2.size();
+	}
+	
+	
+		public static void main(String[] args) {
+		
+		Model model = new Model();
+
+		
+		System.out.println("-------- Grafo ---------");
+		System.out.println("\n");
+		
+//		model.creaGrafo(1950) ;
+		Sighting s= new Sighting(17646, "ca");
+		
+		model.creaGrafo2(1950);
+		String st=new String ("fl");	
+		
+
+		
+		System.out.println("\n");
+		System.out.println("-------- Sucessori2 ---------");
+		System.out.println("\n");
+		
+		List<String> trovaSucessori2 =model.trovaSucessori2(st);
+		System.out.println(trovaSucessori2);
+
+		System.out.println("\n");
+		System.out.println("-------- Predecessori2 ---------");
+		System.out.println("\n");
+		
+		List<String> trovaPredeccessori2 =model.trovaPredecessori2(st);
+		System.out.println(trovaPredeccessori2);
+
+		System.out.println("\n");
+		System.out.println("-------- raggiungibili2 ---------");
+		System.out.println("\n");
+		
+		List<String> trovaRaggiungibili2 =model.getRaggiungibiliInAmpiezza2(st);
+		System.out.println(trovaRaggiungibili2);
+		
+		System.out.println("\n");
+		System.out.println("-------- quanti raggiungibili2? ---------");
+		System.out.println("\n");
+		
+		int n2=model.raggiungibili2();
+		System.out.println(n2);
+	}
