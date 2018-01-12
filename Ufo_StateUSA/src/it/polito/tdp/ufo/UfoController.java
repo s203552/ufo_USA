@@ -33,18 +33,17 @@ public class UfoController {
 	    @FXML // fx:id="txtResult"
 	    private TextArea txtResult; // Value injected by FXMLLoader
         
-	    int anno = 0;
+	    CoppiaInt anni;
 	    @FXML
 	    void doCreaGrafo(ActionEvent event) {
 	    	
 			
-	    	CoppiaInt anni  = boxAnni.getValue();	 
+	    	anni  = boxAnni.getValue();	 
 			if(boxAnni.getValue()==  null)
 			  { txtResult.setText("Nessuna shape selezionata");
 			  		return;}
 			
-			if( anno==anni.getAnno())	
-		    model.creaGrafo(anno);
+		    model.creaGrafo(anni.getAnno());
 		   
 			Sighting s  = boxSightingUs.getValue();	 
 			if(boxSightingUs.getValue()==  null)
@@ -73,7 +72,8 @@ public class UfoController {
 	public void setModel(Model model) {
 	 this.model=model;	
 	 this.boxAnni.getItems().addAll(model.getAllCoppiaIntAnni());
-	 this.boxSightingUs.getItems().addAll(model.getAllStati(anno));		
+	 anni  = boxAnni.getValue();	 
+	 this.boxSightingUs.getItems().addAll(model.getAllStati(anni.getAnno()));		
 	}
 
 }
